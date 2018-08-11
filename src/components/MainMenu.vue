@@ -32,11 +32,6 @@ import { EmptyDomain } from '@/classes/Domain'
 
 export default {
   name: 'main-menu',
-  data () {
-    return {
-
-    }
-  },
   methods: {
     onDomainNew () {
       this.$router.push({ name: 'domain', params: EmptyDomain })
@@ -52,11 +47,40 @@ export default {
     },
     loadYaml (data) {
       const yamlData = yaml.safeLoad(data)
+      const slots = this.loadSlotsFromYaml(yamlData.slots)
+      const templates = this.loadTemplatesFromYaml(yamlData.templates)
+
+      const jsonData = {
+        intents: yamlData.intents ? yamlData.intents : [],
+        entities: yamlData.entities ? yamlData.entities : [],
+        actions: yamlData.actions ? yamlData.actions : [],
+        slots,
+        templates
+      }
+
+      this.$router.push({ name: 'domain', params: jsonData })
+    },
+
+    // Load YAML slots into our JSON format
+    loadSlotsFromYaml (yamlSlots) {
+      const slots = []
+
+      const keys = Object.keys(yamlSlots)
+      for (let key of keys) {
+        const slot = yamlSlots[key]
+        slots.push({ name: key, ...slot })
+      }
+
+      return slots
+    },
+
+    // Load YAML templates into our JSON format
+    loadTemplatesFromYaml (yamlTemplates) {
       const templates = []
-      const templatesKeys = Object.keys(yamlData.templates)
+      const templatesKeys = Object.keys(yamlTemplates)
 
       for (let key of templatesKeys) {
-        const templateData = yamlData.templates[key][0]
+        const templateData = yamlTemplates[key][0]
 
         let template
         if (typeof templateData === 'object') {
@@ -76,15 +100,7 @@ export default {
         templates.push(template)
       }
 
-      const jsonData = {
-        intents: yamlData.intents ? yamlData.intents : [],
-        entities: yamlData.entities ? yamlData.entities : [],
-        actions: yamlData.actions ? yamlData.actions : [],
-        slots: yamlData.slots ? yamlData.slots : [],
-        templates
-      }
-
-      this.$router.push({ name: 'domain', params: jsonData })
+      return templates
     }
   }
 }
