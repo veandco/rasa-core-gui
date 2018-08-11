@@ -12,7 +12,7 @@
       {{ template.name }} <span style='float: right'><el-button type='danger' icon='el-icon-delete' @click='onTemplateDelete(i)'></el-button></span>
       </template>
       <el-form ref='form' label-width='120px'>
-      <el-form-item v-for='(value, key) in templates[i]' :label='key' :key='key'>
+      <el-form-item v-for='(value, key) in templates[i]' :label='key' :key='key' v-if='typeof(templates[i][key]) !== "object"'>
         <el-row>
         <el-col :span='12'>
           <el-input v-model='templates[i][key]'></el-input>

@@ -56,7 +56,23 @@ export default {
       const templatesKeys = Object.keys(yamlData.templates)
 
       for (let key of templatesKeys) {
-        const template = Object.assign(yamlData.templates[key][0], { name: key })
+        const templateData = yamlData.templates[key][0]
+
+        let template
+        if (typeof templateData === 'object') {
+          template = Object.assign(templateData, { name: key })
+        } else {
+          template = { name: key, text: templateData }
+        }
+
+        // WORKAROUND: Delete array data inside template because we cannot handle it yet
+        const keys = Object.keys(template)
+        for (let key of keys) {
+          if (typeof template[key] === 'object') {
+            delete template[key]
+          }
+        }
+
         templates.push(template)
       }
 
@@ -65,7 +81,7 @@ export default {
         entities: yamlData.entities ? yamlData.entities : [],
         actions: yamlData.actions ? yamlData.actions : [],
         slots: yamlData.slots ? yamlData.slots : [],
-        templates: templates
+        templates
       }
 
       this.$router.push({ name: 'domain', params: jsonData })
