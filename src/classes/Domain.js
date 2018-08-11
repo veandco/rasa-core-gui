@@ -7,12 +7,27 @@ export const DummyDomain = {
     'mood_great',
     'mood_unhappy'
   ],
+  entities: [
+    'location',
+    'time'
+  ],
   actions: [
     'utter_greet',
     'utter_cheer_up',
     'utter_did_that_help',
     'utter_happy',
     'utter_goodbye'
+  ],
+  slots: [
+    {
+      name: 'location',
+      type: 'text'
+    },
+    {
+      name: 'time',
+      type: 'text',
+      initial_value: 'now'
+    }
   ],
   templates: [
     {
@@ -41,6 +56,8 @@ export const DummyDomain = {
 
 export const EmptyDomain = {
   intents: [],
+  entities: [],
   actions: [],
+  slots: [],
   templates: []
 }

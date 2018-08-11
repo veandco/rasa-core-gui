@@ -61,8 +61,10 @@ export default {
       }
 
       const jsonData = {
-        intents: yamlData.intents,
-        actions: yamlData.actions,
+        intents: yamlData.intents ? yamlData.intents : [],
+        entities: yamlData.entities ? yamlData.entities : [],
+        actions: yamlData.actions ? yamlData.actions : [],
+        slots: yamlData.slots ? yamlData.slots : [],
         templates: templates
       }
 
@@ -72,8 +74,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 h1, h2 {
   font-weight: normal;
 }
@@ -94,9 +95,5 @@ a {
 
 input[type='file'] {
   display: none;
-}
-
-.domain-file-label {
-  padding: 8px;
 }
 </style>
