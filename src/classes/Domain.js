@@ -38,3 +38,9 @@ export const DummyDomain = {
     }
   ]
 }
+
+export const EmptyDomain = {
+  intents: [],
+  actions: [],
+  templates: []
+}

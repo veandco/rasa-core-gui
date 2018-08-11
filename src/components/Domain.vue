@@ -45,13 +45,19 @@
       </el-col>
     </el-row>
 
+    <el-row>
+      <el-col :span='18' :offset='3'>
+        <el-button @click='onDownload'>Download</el-button>
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import yaml from 'js-yaml'
 
-import { DummyDomain } from '@/classes/Domain'
 import DomainItem from '@/components/domain/DomainItem'
 
 export default {
@@ -61,10 +67,11 @@ export default {
   },
   data () {
     return {
-      form: DummyDomain,
+      form: this.$route.params,
       collapseActiveNames: -1
     }
   },
+
   methods: {
     // Create a new template
     onTemplateNew () {
@@ -114,6 +121,47 @@ export default {
       if (numberOfKeys <= 0 || key === 'name') {
         this.form.templates.splice(i, 1)
       }
+    },
+
+    onDownload () {
+      let templates = {}
+
+      // Convert the templates data format to be compatible with the YAML format
+      for (let i in this.form.templates) {
+        const mainKey = this.form.templates[i].name
+        const keys = Object.keys(this.form.templates[i])
+
+        templates[mainKey] = [{}]
+
+        for (let key of keys) {
+          const value = this.form.templates[i][key]
+          if (mainKey !== value) {
+            templates[mainKey][0][key] = value
+          }
+        }
+      }
+
+      // Build the final data format for conversion to YAML format
+      const output = {
+        intents: this.form.intents,
+        actions: this.form.actions,
+        templates
+      }
+
+      // Convert data to YAML
+      const yamlData = yaml.safeDump(output)
+
+      // Initiate download
+      let element = document.createElement('a')
+      element.setAttribute('href', 'data:text/plaincharset=utf-8,' + encodeURIComponent(yamlData))
+      element.setAttribute('download', 'domain.yml')
+
+      element.style.display = 'none'
+      document.body.appendChild(element)
+
+      element.click()
+
+      document.body.removeChild(element)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
     <header>
-      <span>Rasa Core GUI</span>
+      <span><router-link class='link-home' to='/'>Rasa Core GUI</router-link></span>
     </header>
     <main>
       <router-view></router-view>
@@ -48,5 +48,10 @@ header span {
   font-weight: 400;
   box-sizing: border-box;
   padding-top: 16px;
+}
+
+.link-home {
+  color: #fff;
+  text-decoration: none;
 }
 </style>
