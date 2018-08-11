@@ -7,24 +7,24 @@
     <el-button class='operation' type='text' @click='onTemplateNew'>+</el-button>
     </div>
     <el-collapse :accordion='true'>
-    <el-collapse-item v-for='(template, i) in templates' :title='template.name' :name='template.name' :key='template.name'>
-      <template slot='title'>
-      {{ template.name }} <span style='float: right'><el-button type='danger' icon='el-icon-delete' @click='onTemplateDelete(i)'></el-button></span>
-      </template>
-      <el-form ref='form' label-width='120px'>
-      <el-form-item v-for='(value, key) in templates[i]' :label='key' :key='key' v-if='typeof(templates[i][key]) !== "object"'>
-        <el-row>
-        <el-col :span='12'>
-          <el-input v-model='templates[i][key]'></el-input>
-        </el-col>
-        <el-col :span='6'>
-          <el-button class='button' type='danger' icon='el-icon-delete' @click='onTemplateDelete(i, key)'></el-button>
-        </el-col>
-        </el-row>
-      </el-form-item>
-      <el-button @click='onTemplateItemNew(i)'>+</el-button>
-      </el-form>
-    </el-collapse-item>
+      <el-collapse-item v-for='(template, i) in templates' :title='template.name' :name='template.name' :key='template.name'>
+        <template slot='title'>
+        {{ template.name }} <span style='float: right'><el-button type='danger' icon='el-icon-delete' @click='onTemplateDelete(i)'></el-button></span>
+        </template>
+        <el-form ref='form' label-width='120px'>
+        <el-form-item v-for='(value, key) in templates[i]' :label='key' :key='key' v-if='typeof(templates[i][key]) !== "object"'>
+          <el-row>
+          <el-col :span='12'>
+            <el-input v-model='templates[i][key]'></el-input>
+          </el-col>
+          <el-col :span='6'>
+            <el-button class='button' type='danger' icon='el-icon-delete' @click='onTemplateDelete(i, key)'></el-button>
+          </el-col>
+          </el-row>
+        </el-form-item>
+        <el-button @click='onTemplateItemNew(i)'>+</el-button>
+        </el-form>
+      </el-collapse-item>
     </el-collapse>
   </el-card>
   </el-col>

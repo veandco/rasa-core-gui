@@ -14,11 +14,11 @@
       </el-col>
       <el-col :span='6'>
 
-        <!-- New Story -->
-        <el-button class='button'>New Story</el-button>
+        <!-- New Stories -->
+        <el-button class='button' @click='onStoriesNew'>New Stories</el-button>
 
-        <!-- Load Story -->
-        <el-button class='button'>Load Story</el-button>
+        <!-- Load Stories -->
+        <el-button class='button'>Load Stories</el-button>
 
       </el-col>
     </el-row>
@@ -29,6 +29,7 @@
 import yaml from 'js-yaml'
 
 import { EmptyDomain } from '@/classes/Domain'
+import { DummyStories } from '@/classes/Story'
 
 export default {
   name: 'main-menu',
@@ -44,6 +45,9 @@ export default {
         this.loadYaml(e.target.result)
       })
       reader.readAsText(files[0])
+    },
+    onStoriesNew () {
+      this.$router.push({ name: 'stories', params: DummyStories })
     },
     loadYaml (data) {
       const yamlData = yaml.safeLoad(data)
